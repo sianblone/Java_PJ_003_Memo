@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.biz.memo.mybatis.dao.MemoDao">
+	<select id="selectAll" resultType="MemoDTO">
+		select * from tbl_memo
+	</select>
+	
+	<select id="findById" resultType="MemoDTO">
+		select * from tbl_memo where id = #{id} 
+	</select>
+	
+	<select id="findByAuth" resultType="MemoDTO">
+		select * from tbl_memo where m_auth like '%' || #{m_auth} || '%'
+	</select>
+	
+	<select id="findByDate" resultType="MemoDTO">
+		select * from tbl_memo where m_date between #{m_date1} and #{m_date2}
+	</select>
+	
+	<select id="findBySubject" resultType="MemoDTO">
+		select * from tbl_memo where m_subject like '%' || #{m_subject} || '%'
+	</select>
+	
+	<select id="findByText" resultType="MemoDTO">
+		select * from tbl_memo where m_text like '%' || #{m_text} || '%'
+	</select>
+	
+	<select id="maxId" resultType="String">
+		select max(id) from tbl_memo
+	</select>
+	
+	<insert id="insert">
+		insert into tbl_memo(id, m_auth, m_date, m_subject, m_text, m_photo)
+		values(seq_memo.nextval, #{m_auth,jdbcType=VARCHAR}, #{m_date,jdbcType=VARCHAR}, #{m_subject,jdbcType=VARCHAR}, #{m_text,jdbcType=VARCHAR}, #{m_photo,jdbcType=VARCHAR})
+	</insert>
+	
+	<update id="update">
+		update tbl_memo set
+			M_AUTH = #{m_auth,jdbcType=VARCHAR},
+			M_DATE = #{m_date,jdbcType=VARCHAR},
+			M_SUBJECT = #{m_subject,jdbcType=VARCHAR},
+			M_TEXT = #{m_text,jdbcType=VARCHAR},
+			M_PHOTO = #{m_photo,jdbcType=VARCHAR}
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from tbl_memo where id = #{id}
+	</delete>
+</mapper>
